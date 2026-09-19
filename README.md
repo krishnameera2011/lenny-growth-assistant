@@ -1,32 +1,51 @@
-# React + TypeScript + Vite
+# The Lenny Growth Assistant
+> **Forward Deployed Engineer Take-Home Assessment for Oogway Labs**  
+> Candidate: krishnameera093@gmail.com | Role: Forward Deployed Engineer Intern  
+> **Live App URL**: https://ais-pre-uen6j22s3hxaom3d5x4xp6-947147213249.asia-southeast1.run.app  
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A production-grade, full-stack AI-powered conversational web application that turns Lenny’s Podcast transcripts into a reliable internal assistant with strict grounding, Ship 30 for 30 essay generation, and a Claude-style sandboxed Artifact Viewer.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🌟 Key Features
 
-## React Compiler
+1. **Strictly Grounded Conversational RAG**:
+   - Ingests authentic transcripts from cornerstone episodes (Brian Chesky, Shreyas Doshi, Elena Verna, Gustaf Alströmer, Marty Cagan, April Dunford, Sean Ellis, Lenny Rachitsky).
+   - Verifiable source citations with exact episode titles, guest roles, timestamps, and quotes.
+   - **Zero-Hallucination Guardrail**: Gracefully acknowledges when the indexed transcripts do not contain material to answer a question.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+2. **Ship 30 for 30 Content Skill**:
+   - Dedicated engine encoding Nicolas Cole and Dickie Bush's viral essay principles (Hook, 1-3-1 cadence, bold scanning anchors, atomic framework breakdown, actionable 48-hour takeaway, and ~1,250 words).
 
-## Expanding the Oxlint configuration
+3. **Claude-Style In-App Artifact Viewer**:
+   - Generates and renders live interactive HTML/CSS/JS artifacts (e.g. ICE Prioritization Matrix, Retention Curve Simulator, 40% PMF Test) beside the chat.
+   - **Security Sandboxed**: Untrusted HTML rendered inside an isolated `iframe` with `sandbox="allow-scripts"` (blocks `allow-same-origin`, `allow-top-navigation`, preventing XSS and token exfiltration).
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+4. **Flexible LLM Provider Layer (Cloud & Local)**:
+   - **Cloud**: Google Gemini 2.5 Flash / Anthropic Claude / OpenAI.
+   - **Local LLM**: Mandatory demo support via **Ollama** running locally on `http://localhost:11434` (e.g., `llama3.2`, `mistral`).
+   - Seamless live UI status toggle with automatic fallback.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+5. **Operational Observability & Health**:
+   - REST API endpoints (`/api/health`, `/api/transcripts`, `/api/chat`, `/api/model-status`).
+   - Live telemetry viewer tracking retrieval scores, latency in milliseconds, and model routing.
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+---
+
+## 🚀 Quickstart & Installation
+
+### Option 1: One-Command Startup (Node / tsx)
+
+```bash
+# 1. Clone repository
+git clone https://github.com/krishnameera2011/lenny-growth-assistant.git
+cd lenny-growth-assistant
+
+# 2. Install dependencies
+npm install
+
+# 3. Setup environment variables (optional for local Ollama)
+cp .env.example .env
+
+# 4. Start the application
+npm run dev
