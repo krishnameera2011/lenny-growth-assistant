@@ -1,0 +1,50 @@
+# Agent Development Transcripts & Execution Logs
+## The Lenny Growth Assistant
+**Date:** September 2026  
+**Project:** Oogway Labs — Forward Deployed Engineer Assessment  
+
+---
+
+## 1. Initial Prompt & Architecture Framing
+
+**Goal**: Build a full-stack, deployable AI assistant using transcripts from Lenny's Podcast with:
+- Strict citation grounding
+- Ship 30 for 30 essay generation skill (~1,250 words)
+- Claude-style Artifact Viewer with secure iframe isolation
+- Flexible LLM toggle (Cloud Gemini / Anthropic + Local Ollama)
+- Operational observability and tests
+
+---
+
+## 2. Iteration Log & Corrective Steps
+
+### Iteration 1: Knowledge Base Ingestion & Chunking
+- **Attempt**: Chunked raw transcripts into arbitrary 500-token blocks.
+- **Issue**: Random chunking split key quotes across boundaries (e.g. Shreyas Doshi’s definition of LNO was severed midway).
+- **Correction**: Redesigned chunking model to adhere to logical conversational units with explicit `topic`, `keyTakeaway`, and `timestamp` fields. This dramatically improved retrieval precision and quote coherence.
+
+### Iteration 2: Grounding & Out-of-Domain Guardrails
+- **Attempt**: Generic vector search without confidence cut-off.
+- **Issue**: When asked about unrelated queries (e.g. baking or quantum physics), the model tried to force an answer by latching onto incidental common English words.
+- **Correction**: Implemented strict minimum relevance scoring threshold ($Score \ge 5$). Any query with confidence $< 0.35$ immediately triggers the out-of-domain protocol: *"Lenny’s Podcast transcripts in our knowledge base do not support an answer..."*
+
+### Iteration 3: Ship 30 for 30 Skill Formalization
+- **Attempt**: Passed a generic one-off system prompt: *"Write a Ship 30 for 30 essay"*.
+- **Issue**: Cloud LLMs generated standard 300-word summaries lacking Nicolas Cole's signature 1-3-1 cadence and bold skimmability.
+- **Correction**: Built a dedicated deterministic skill engine (`ship30Engine.ts`) encoding:
+  - Strong hook & curiosity gap
+  - 1-3-1 rhythmic paragraph pacing
+  - Bold visual anchors for skimmers
+  - Grounded podcast quotes with episode timestamps
+  - Actionable 48-hour implementation checklist
+  - Word count benchmark (~1,250 words)
+
+### Iteration 4: Claude-Style Artifact Viewer & Security Isolation
+- **Attempt**: Injected generated HTML directly into DOM using `dangerouslySetInnerHTML`.
+- **Issue**: Critical security vulnerability! Untrusted HTML could execute scripts that steal session storage or tamper with the parent chat window.
+- **Correction**: Enforced sandboxed `iframe` rendering with `sandbox="allow-scripts"`. Explicitly omitted `allow-same-origin` and `allow-top-navigation`, effectively walling off all access to host cookies and DOM. Added raw code inspection tab and security explainer tab.
+
+### Iteration 5: Flexible LLM Toggle (Local Ollama vs Cloud)
+- **Attempt**: Hardcoded API endpoints to cloud providers.
+- **Issue**: If the evaluator ran the test without external API keys or had a corporate proxy, the app failed.
+- **Correction**: Built a dynamic provider layer with live ping to `http://localhost:11434/api/tags` for local Ollama, cloud Gemini support, and resilient local deterministic RAG synthesis as fallback.
