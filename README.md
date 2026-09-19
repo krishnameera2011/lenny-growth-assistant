@@ -1,7 +1,7 @@
 # The Lenny Growth Assistant
 > **Forward Deployed Engineer Take-Home Assessment for Oogway Labs**  
 > Candidate: krishnameera093@gmail.com | Role: Forward Deployed Engineer Intern  
-> **Live App URL**: https://ais-pre-uen6j22s3hxaom3d5x4xp6-947147213249.asia-southeast1.run.app  
+> **Live App URL**: https://lenny-growth-assistant-kappa.vercel.app/ 
 
 A production-grade, full-stack AI-powered conversational web application that turns Lenny’s Podcast transcripts into a reliable internal assistant with strict grounding, Ship 30 for 30 essay generation, and a Claude-style sandboxed Artifact Viewer.
 
